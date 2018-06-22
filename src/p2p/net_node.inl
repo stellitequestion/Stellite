@@ -1,4 +1,5 @@
 // Copyright (c) 2014-2017, The Monero Project
+// Copyright (c) 2018, The Stellite Project
 //
 // All rights reserved.
 //
@@ -28,6 +29,7 @@
 //
 // Parts of this file are originally copyright (c) 2012-2013 The Cryptonote developers
 
+
 // IP blocking adapted from Boolberry
 
 #pragma once
@@ -35,6 +37,9 @@
 #include <algorithm>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/dll.hpp>
+#include <fstream>
 #include <atomic>
 
 #include "version.h"
@@ -406,13 +411,38 @@ namespace nodetool
   template<class t_payload_net_handler>
   std::set<std::string> node_server<t_payload_net_handler>::get_seed_nodes(bool testnet) const
   {
+    std::string working_dir = boost::dll::program_location().parent_path().string();
+    // TODO: This is a temp log entry to check if the path is correct across platforms
+    MGINFO("[ZN_SEEDLIST] Checking directory for seed list: " << working_dir);
+
     std::set<std::string> full_addrs;
     if (testnet)
     {
       // Add testnet nodes here, will update later PINKY PROMISE
     }
+    else if (boost::filesystem::exists(working_dir + "/ipfs-seedlist.txt"))
+    {
+      // This is a very early implementation to use IPFS/ZeroNet for storing
+      // the seed list. It uses an external tool 'retrieve-zn-ipfs-seedlist'
+      // to get the seed list from Zeronet/IPFS
+      //
+      // Add downloaded seed addresses if they exist
+      // We currently store the downloaded seedlist in ipfs-seedlist.txt
+      MGINFO("[ZN_SEEDLIST] Seed list is available");
+      // TODO: Error checking
+      std::ifstream input(working_dir + "/ipfs-seedlist.txt");
+      for(std::string line; getline(input, line); )
+      {
+        std::string address = epee::string_tools::trim(line);
+        full_addrs.insert(address);
+        MGINFO("[ZN_SEEDLIST] Added seed: " << address);
+      }
+
+    }
     else
     {
+      MGINFO("[ZN_SEEDLIST] Seed list is not available, using hardcoded seeds");
+
       full_addrs.insert("185.91.116.196:20188");
       full_addrs.insert("185.91.116.136:20188");
       full_addrs.insert("185.91.116.164:20188");
@@ -718,7 +748,7 @@ namespace nodetool
   {
 	MDEBUG("[node] sending stop signal");
 	m_net_server.send_stop_signal();
-	MDEBUG("[node] Stop signal sent"); 
+	MDEBUG("[node] Stop signal sent");
 
    std::list<boost::uuids::uuid> connection_ids;
     m_net_server.get_config_object().foreach_connection([&](const p2p_connection_context& cntxt) {
