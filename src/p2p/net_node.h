@@ -52,6 +52,7 @@
 #include "math_helper.h"
 #include "net_node_common.h"
 #include "common/command_line.h"
+#include "libznipfs/libznipfs.h"
 
 PUSH_WARNINGS
 DISABLE_VS_WARNINGS(4355)
@@ -92,6 +93,7 @@ namespace nodetool
     m_hide_my_port(false),
     m_no_igd(false),
     m_offline(false),
+    m_znipfs(false),
     m_save_graph(false),
     is_closing(false),
     m_net_server( epee::net_utils::e_connection_type_P2P ) // this is a P2P connection of the main p2p node server, because this is class node_server<>
@@ -225,7 +227,7 @@ namespace nodetool
     void cache_connect_fail_info(const epee::net_utils::network_address& addr);
     bool is_addr_recently_failed(const epee::net_utils::network_address& addr);
     bool is_priority_node(const epee::net_utils::network_address& na);
-    std::set<std::string> get_seed_nodes(bool testnet) const;
+    std::set<std::string> get_seed_nodes(bool testnet, bool zeronet) const;
     bool connect_to_seed();
 
     template <class Container>
@@ -294,6 +296,7 @@ namespace nodetool
     bool m_hide_my_port;
     bool m_no_igd;
     bool m_offline;
+    bool m_znipfs;
     std::atomic<bool> m_save_graph;
     std::atomic<bool> is_closing;
     std::unique_ptr<boost::thread> mPeersLoggerThread;

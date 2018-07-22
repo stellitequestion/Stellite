@@ -71,6 +71,9 @@ namespace nodetool
 {
   namespace
   {
+    const char* zeronet_address = "1FAiQ7MddvavaRF6b47fPEY4nSBVJUbCXf";
+    const char* zeronet_testnet_address = "133gv4M9kx5oWP1yUkK9MRFSnEVQZAghmt";
+
     const int64_t default_limit_up = 2048;
     const int64_t default_limit_down = 8192;
     const command_line::arg_descriptor<std::string> arg_p2p_bind_ip        = {"p2p-bind-ip", "Interface for p2p network protocol", "0.0.0.0"};
@@ -95,6 +98,7 @@ namespace nodetool
 
     const command_line::arg_descriptor<bool>        arg_no_igd  = {"no-igd", "Disable UPnP port mapping"};
     const command_line::arg_descriptor<bool>        arg_offline = {"offline", "Do not listen for peers, nor connect to any"};
+    const command_line::arg_descriptor<bool>        arg_znipfs = {"zeronet", "Use ZeroNet and IPFS to retrieve the seed list"};
     const command_line::arg_descriptor<int64_t>     arg_out_peers = {"out-peers", "set max number of out peers", -1};
     const command_line::arg_descriptor<int> arg_tos_flag = {"tos-flag", "set TOS flag", -1};
 
@@ -120,6 +124,7 @@ namespace nodetool
     command_line::add_arg(desc, arg_p2p_hide_my_port);
     command_line::add_arg(desc, arg_no_igd);
     command_line::add_arg(desc, arg_offline);
+    command_line::add_arg(desc, arg_znipfs);
     command_line::add_arg(desc, arg_out_peers);
     command_line::add_arg(desc, arg_tos_flag);
     command_line::add_arg(desc, arg_limit_rate_up);
@@ -306,6 +311,7 @@ namespace nodetool
     m_allow_local_ip = command_line::get_arg(vm, arg_p2p_allow_local_ip);
     m_no_igd = command_line::get_arg(vm, arg_no_igd);
     m_offline = command_line::get_arg(vm, arg_offline);
+    m_znipfs = command_line::get_arg(vm, arg_znipfs);
 
     if (command_line::has_arg(vm, arg_p2p_add_peer))
     {
@@ -404,12 +410,29 @@ namespace nodetool
 
   //-----------------------------------------------------------------------------------
   template<class t_payload_net_handler>
-  std::set<std::string> node_server<t_payload_net_handler>::get_seed_nodes(bool testnet) const
+  std::set<std::string> node_server<t_payload_net_handler>::get_seed_nodes(bool testnet, bool zeronet) const
   {
     std::set<std::string> full_addrs;
     if (testnet)
     {
       // Add testnet nodes here, will update later PINKY PROMISE
+    }
+    else if (zeronet)
+    {
+      // TODO ZNIPFS: This is where the seedlist is downloaded from ZN/IPFS
+      MGINFO("Daemon is set to retrieve seed list from ZeroNet/IPFS");
+      char *seedlist = GetSeedList(zeronet_address);
+      // TODO COMMENT
+      // I have no idea if this is the correct way of doing this
+      // I can alternatively return JSON to be parsed here
+      // Any feedback on this would be very helpful
+      char* address = strtok(seedlist, "\n");
+      while(address)
+      {
+        full_addrs.insert(address);
+        MGINFO("Added seed from ZeroNet/IPFS: " << address);
+        address = strtok(NULL, "\n");
+      }
     }
     else
     {
@@ -429,11 +452,12 @@ namespace nodetool
   {
     std::set<std::string> full_addrs;
     m_testnet = command_line::get_arg(vm, command_line::arg_testnet_on);
+    m_znipfs = command_line::get_arg(vm, arg_znipfs);
 
     if (m_testnet)
     {
       memcpy(&m_network_id, &::config::testnet::NETWORK_ID, 16);
-      full_addrs = get_seed_nodes(true);
+      full_addrs = get_seed_nodes(true, m_znipfs);
     }
     else
     {
@@ -514,7 +538,7 @@ namespace nodetool
         else
           MINFO("Not enough DNS seed nodes found, using fallback defaults too");
 
-        for (const auto &peer: get_seed_nodes(false))
+        for (const auto &peer: get_seed_nodes(false, m_znipfs))
           full_addrs.insert(peer);
       }
     }
@@ -616,6 +640,12 @@ namespace nodetool
         MINFO("No IGD was found.");
       }
     }
+
+    // TODO ZNIPFS: This is where libznipfs is set up with the current data dir
+    if (m_znipfs) {
+      StartNode("/tmp/GET_DATA_DIR");
+    }
+
     return res;
   }
   //-----------------------------------------------------------------------------------
@@ -682,6 +712,10 @@ namespace nodetool
     kill();
     m_peerlist.deinit();
     m_net_server.deinit_server();
+
+    // TODO ZNIPFS: This is where libznipfs is shut down
+    StopNode();
+
     return store_config();
   }
   //-----------------------------------------------------------------------------------
@@ -718,7 +752,7 @@ namespace nodetool
   {
 	MDEBUG("[node] sending stop signal");
 	m_net_server.send_stop_signal();
-	MDEBUG("[node] Stop signal sent"); 
+	MDEBUG("[node] Stop signal sent");
 
    std::list<boost::uuids::uuid> connection_ids;
     m_net_server.get_config_object().foreach_connection([&](const p2p_connection_context& cntxt) {
@@ -1189,7 +1223,7 @@ namespace nodetool
           if (!fallback_nodes_added)
           {
             MWARNING("Failed to connect to any of seed peers, trying fallback seeds");
-            for (const auto &peer: get_seed_nodes(m_testnet))
+            for (const auto &peer: get_seed_nodes(m_testnet, false))
             {
               MDEBUG("Fallback seed node: " << peer);
               append_net_address(m_seed_nodes, peer);
