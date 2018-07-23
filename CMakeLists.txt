@@ -666,9 +666,16 @@ elseif(NOT MSVC)
 endif()
 
 list(APPEND EXTRA_LIBRARIES ${CMAKE_DL_LIBS})
-# TODO: I'm using CMAKE_CURRENT_SOURCE_DIR to locate libznipfs.a here, it seems like
+# TODO REQUIRE FEEDBACK I'm using CMAKE_CURRENT_SOURCE_DIR to locate libznipfs.a here, it seems like
 # `find_library` would be a better option
-list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a)
+if(MSVC OR MINGW)
+  # I couldn't find the exact location to add the linker flags for Windows builds, so this works for now
+  list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a -lWinMM -lWS2_32)
+else()
+  list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a)
+endif()
+
+
 
 option(USE_READLINE "Build with GNU readline support." ON)
 if(USE_READLINE)
