@@ -65,11 +65,11 @@ extern "C" {
 #endif
 
 
-extern void StartNode(char* p0);
+extern void ZNIPFSStartNode(char* p0);
 
-extern char* GetSeedList(char* p0);
+extern char* ZNIPFSGetSeedList(char* p0);
 
-extern void StopNode();
+extern void ZNIPFSStopNode();
 
 #ifdef __cplusplus
 }

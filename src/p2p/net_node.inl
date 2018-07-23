@@ -71,8 +71,11 @@ namespace nodetool
 {
   namespace
   {
-    const char* zeronet_address = "1FAiQ7MddvavaRF6b47fPEY4nSBVJUbCXf";
-    const char* zeronet_testnet_address = "133gv4M9kx5oWP1yUkK9MRFSnEVQZAghmt";
+    // TODO ZNIPFS: I define the zeronet addresses here. `const char *` would be a better option here but it seems like
+    // you can't pass consts into Go
+    // TODO REQUIRE FEEDBACK
+    char* zeronet_address = (char*)"1FAiQ7MddvavaRF6b47fPEY4nSBVJUbCXf";
+    char* zeronet_testnet_address = (char*)"133gv4M9kx5oWP1yUkK9MRFSnEVQZAghmt";
 
     const int64_t default_limit_up = 2048;
     const int64_t default_limit_down = 8192;
@@ -420,9 +423,11 @@ namespace nodetool
     else if (zeronet)
     {
       // TODO ZNIPFS: This is where the seedlist is downloaded from ZN/IPFS
-      MGINFO("Daemon is set to retrieve seed list from ZeroNet/IPFS");
-      char *seedlist = GetSeedList(zeronet_address);
-      // TODO COMMENT
+      MGINFO("Fetching seed list from ZeroNet/IPFS...");
+      char *seedlist = ZNIPFSGetSeedList(zeronet_address);
+      MGINFO("Fetched the seed list from ZeroNet/IPFS");
+      
+      // TODO REQUIRE FEEDBACK
       // I have no idea if this is the correct way of doing this
       // I can alternatively return JSON to be parsed here
       // Any feedback on this would be very helpful
@@ -453,6 +458,20 @@ namespace nodetool
     std::set<std::string> full_addrs;
     m_testnet = command_line::get_arg(vm, command_line::arg_testnet_on);
     m_znipfs = command_line::get_arg(vm, arg_znipfs);
+
+    // TODO ZNIPFS: This is where libznipfs is set up with the current data dir
+    if (m_znipfs) {
+      // I've prefixed all the calls with ZNIPFS, this is just to identify them
+      // easily. If I can set a namespace for the lib from Go it would be cleaner
+
+      // We use the provided --data-dir as the base path for IPFS and
+      // ZeroNet storage as well
+      //
+      // TODO REQUIRE FEEDBACK - Do tell me if c_str()+const_cast is Ok or not?
+      std::string data_dir = command_line::get_arg(vm, command_line::arg_data_dir);
+      ZNIPFSStartNode(const_cast<char*>(data_dir.c_str()));
+      //ZNIPFSStartNode("/tmp/GET_DATA_DIR");
+    }
 
     if (m_testnet)
     {
@@ -641,11 +660,6 @@ namespace nodetool
       }
     }
 
-    // TODO ZNIPFS: This is where libznipfs is set up with the current data dir
-    if (m_znipfs) {
-      StartNode("/tmp/GET_DATA_DIR");
-    }
-
     return res;
   }
   //-----------------------------------------------------------------------------------
@@ -714,7 +728,7 @@ namespace nodetool
     m_net_server.deinit_server();
 
     // TODO ZNIPFS: This is where libznipfs is shut down
-    StopNode();
+    ZNIPFSStopNode();
 
     return store_config();
   }

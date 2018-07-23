@@ -666,6 +666,9 @@ elseif(NOT MSVC)
 endif()
 
 list(APPEND EXTRA_LIBRARIES ${CMAKE_DL_LIBS})
+# TODO: I'm using CMAKE_CURRENT_SOURCE_DIR to locate libznipfs.a here, it seems like
+# `find_library` would be a better option
+list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a)
 
 option(USE_READLINE "Build with GNU readline support." ON)
 if(USE_READLINE)
