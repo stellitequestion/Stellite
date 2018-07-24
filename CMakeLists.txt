@@ -671,6 +671,9 @@ list(APPEND EXTRA_LIBRARIES ${CMAKE_DL_LIBS})
 if(MSVC OR MINGW)
   # I couldn't find the exact location to add the linker flags for Windows builds, so this works for now
   list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a -lWinMM -lWS2_32)
+elseif (APPLE)
+  # also couldn't find the exact location to add the linker flags for MacOS builds, so this works for now
+  list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a "-framework CoreFoundation -framework Security")
 else()
   list(APPEND EXTRA_LIBRARIES ${CMAKE_CURRENT_SOURCE_DIR}/external/libznipfs/libznipfs.a)
 endif()
