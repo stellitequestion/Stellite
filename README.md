@@ -90,6 +90,13 @@ invokes cmake commands as needed.
 
 * Install the dependencies
 
+## Required precompiled libraries for ZeroNet and IPFS integration
+
+This branch implements ZeroNet and IPFS to retrieve the seed list. You will need to download the libraries for your platform
+from [the libznipfs releases page](https://github.com/stellitecoin/libznipfs/releases).
+
+Once you've downloaded the library for your platform, extract the contents to the `external/libznipfs` directory where the you cloned the Stellite code.
+
 ## On Linux:
 
 (Tested on Ubuntu 18.04 LTS x64, 16.04 x86, 16.10 x64, Gentoo x64 and Linux Mint 18 "Sarah" - Cinnamon x64)
@@ -103,7 +110,7 @@ Install Stellite dependencies
   - For Gentoo
 
 	`sudo emerge dev-vcs/git app-arch/xz-utils app-doc/doxygen dev-cpp/gtest dev-libs/boost dev-libs/expat dev-libs/openssl dev-util/cmake media-gfx/graphviz net-dns/unbound net-libs/ldns net-libs/miniupnpc net-libs/zeromq sys-libs/libunwind`
-        
+
 ## On OS X:
 
 1. Install or update Xcode from the AppStore
@@ -111,7 +118,7 @@ Install Stellite dependencies
 3. Install [stellite](https://github.com/stellitecoin/stellite) dependencies via the Terminal:
 
   `brew install git`
-  
+
   `brew install boost --c++11`
 
   `brew install openssl` - to install openssl headers
@@ -119,7 +126,7 @@ Install Stellite dependencies
   `brew install pkgconfig`
 
   `brew install cmake`
-  
+
   `brew install unbound`
 
   `brew install miniupnpc`
@@ -139,6 +146,10 @@ Install Stellite dependencies
 * Change to the root of the source code directory and build:
 
         cd Stellite
+        git checkout zeronet-ipfs
+
+    Now extract libznipfs to `external/libznipfs`
+
         make release-static
 
     *Optional*: If your machine has several cores and enough memory, enable
@@ -209,12 +220,15 @@ application.
 
 
 * Open the MingW shell via `MinGW-w64-Win64 Shell` shortcut on 64-bit Windows.
-  
+
 **Cloning**
 
 * To git clone, run:
 
         git clone --recursive https://github.com/stellitecoin/Stellite.git
+        git checkout zeronet-ipfs
+
+Now extract libznipfs to `external/libznipfs`
 
 **Building**
 
