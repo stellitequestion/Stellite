@@ -48,7 +48,19 @@ namespace hw {
     /* ===================================================================== */
     /* ===                           Debug                              ==== */
     /* ===================================================================== */
-    void set_apdu_verbose(bool verbose) {
+    
+    #ifdef WIN32
+    static char *pcsc_stringify_error(LONG rv) {
+     static __thread char out[20];
+     sprintf_s(out, sizeof(out), "0x%08lX", rv);
+
+     return out;
+    }
+    #endif
+
+
+
+void set_apdu_verbose(bool verbose) {
       apdu_verbose = verbose;
     }
 

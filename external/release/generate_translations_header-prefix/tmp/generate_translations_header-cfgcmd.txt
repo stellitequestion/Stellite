@@ -1,1 +1,1 @@
-cmd='/usr/bin/cmake;-GUnix Makefiles;/root/Stellite/translations'
+cmd='C:/msys64/mingw64/bin/cmake.exe;-GMSYS Makefiles;<SOURCE_DIR><SOURCE_SUBDIR>'

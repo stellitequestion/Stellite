@@ -1,100 +1,63 @@
-Determining if the pthread_create exist failed with the following output:
-Change Dir: /root/Stellite/build/release/CMakeFiles/CMakeTmp
-
-Run Build Command:"/usr/bin/make" "cmTC_c5a3f/fast"
-make[1]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-/usr/bin/make -f CMakeFiles/cmTC_c5a3f.dir/build.make CMakeFiles/cmTC_c5a3f.dir/build
-make[2]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_c5a3f.dir/CheckSymbolExists.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_c5a3f.dir/CheckSymbolExists.c.o   -c /root/Stellite/build/release/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_c5a3f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c5a3f.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_c5a3f.dir/CheckSymbolExists.c.o  -o cmTC_c5a3f -rdynamic 
-CMakeFiles/cmTC_c5a3f.dir/CheckSymbolExists.c.o: In function `main':
-CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
-collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_c5a3f.dir/build.make:97: recipe for target 'cmTC_c5a3f' failed
-make[2]: *** [cmTC_c5a3f] Error 1
-make[2]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_c5a3f/fast' failed
-make[1]: *** [cmTC_c5a3f/fast] Error 2
-make[1]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-
-File /root/Stellite/build/release/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
-/* */
-#include <pthread.h>
-
-int main(int argc, char** argv)
-{
-  (void)argv;
-#ifndef pthread_create
-  return ((int*)(&pthread_create))[argc];
-#else
-  (void)argc;
-  return 0;
-#endif
-}
-
 Determining if the function memset_s exists in the c failed with the following output:
-Change Dir: /root/Stellite/build/release/CMakeFiles/CMakeTmp
+Change Dir: C:/msys64/opt/Stellite/build/release/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ae66c/fast"
-make[1]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-/usr/bin/make -f CMakeFiles/cmTC_ae66c.dir/build.make CMakeFiles/cmTC_ae66c.dir/build
-make[2]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ae66c.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=memset_s   -o CMakeFiles/cmTC_ae66c.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
-Linking C executable cmTC_ae66c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ae66c.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=memset_s    CMakeFiles/cmTC_ae66c.dir/CheckFunctionExists.c.o  -o cmTC_ae66c  -L/root/Stellite/build/release/CMakeFiles/CMakeTmp/string.h -rdynamic -lc -Wl,-rpath,/root/Stellite/build/release/CMakeFiles/CMakeTmp/string.h 
-CMakeFiles/cmTC_ae66c.dir/CheckFunctionExists.c.o: In function `main':
-CheckFunctionExists.c:(.text+0x15): undefined reference to `memset_s'
-collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_ae66c.dir/build.make:97: recipe for target 'cmTC_ae66c' failed
-make[2]: *** [cmTC_ae66c] Error 1
-make[2]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_ae66c/fast' failed
-make[1]: *** [cmTC_ae66c/fast] Error 2
-make[1]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
+Run Build Command:"C:/msys64/usr/bin/make.exe" "cmTC_231bd/fast"
+make[1]: Entering directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_231bd.dir/build.make CMakeFiles/cmTC_231bd.dir/build
+make[2]: Entering directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_231bd.dir/CheckFunctionExists.c.obj
+/C/msys64/mingw64/bin/x86_64-w64-mingw32-gcc.exe   -DCHECK_FUNCTION_EXISTS=memset_s   -o CMakeFiles/cmTC_231bd.dir/CheckFunctionExists.c.obj   -c /C/msys64/mingw64/share/cmake-3.12/Modules/CheckFunctionExists.c
+Linking C executable cmTC_231bd.exe
+/C/msys64/mingw64/bin/cmake.exe -E remove -f CMakeFiles/cmTC_231bd.dir/objects.a
+ar cr CMakeFiles/cmTC_231bd.dir/objects.a "CMakeFiles/cmTC_231bd.dir/CheckFunctionExists.c.obj" 
+/C/msys64/mingw64/bin/x86_64-w64-mingw32-gcc.exe  -DCHECK_FUNCTION_EXISTS=memset_s    -Wl,--whole-archive CMakeFiles/cmTC_231bd.dir/objects.a -Wl,--no-whole-archive  -o cmTC_231bd.exe -Wl,--major-image-version,0,--minor-image-version,0  -L/C/msys64/opt/Stellite/build/release/CMakeFiles/CMakeTmp/string.h -lc -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lc
+collect2.exe: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_231bd.dir/build.make:88: cmTC_231bd.exe] Error 1
+make[2]: Leaving directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_231bd/fast] Error 2
+make[1]: Leaving directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
 
 
 Determining if the function explicit_bzero exists in the c failed with the following output:
-Change Dir: /root/Stellite/build/release/CMakeFiles/CMakeTmp
+Change Dir: C:/msys64/opt/Stellite/build/release/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_8c93f/fast"
-make[1]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-/usr/bin/make -f CMakeFiles/cmTC_8c93f.dir/build.make CMakeFiles/cmTC_8c93f.dir/build
-make[2]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_8c93f.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=explicit_bzero   -o CMakeFiles/cmTC_8c93f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
-Linking C executable cmTC_8c93f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8c93f.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=explicit_bzero    CMakeFiles/cmTC_8c93f.dir/CheckFunctionExists.c.o  -o cmTC_8c93f  -L/root/Stellite/build/release/CMakeFiles/CMakeTmp/strings.h -rdynamic -lc -Wl,-rpath,/root/Stellite/build/release/CMakeFiles/CMakeTmp/strings.h 
-CMakeFiles/cmTC_8c93f.dir/CheckFunctionExists.c.o: In function `main':
-CheckFunctionExists.c:(.text+0x15): undefined reference to `explicit_bzero'
-collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_8c93f.dir/build.make:97: recipe for target 'cmTC_8c93f' failed
-make[2]: *** [cmTC_8c93f] Error 1
-make[2]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_8c93f/fast' failed
-make[1]: *** [cmTC_8c93f/fast] Error 2
-make[1]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
+Run Build Command:"C:/msys64/usr/bin/make.exe" "cmTC_82eff/fast"
+make[1]: Entering directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_82eff.dir/build.make CMakeFiles/cmTC_82eff.dir/build
+make[2]: Entering directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_82eff.dir/CheckFunctionExists.c.obj
+/C/msys64/mingw64/bin/x86_64-w64-mingw32-gcc.exe   -DCHECK_FUNCTION_EXISTS=explicit_bzero   -o CMakeFiles/cmTC_82eff.dir/CheckFunctionExists.c.obj   -c /C/msys64/mingw64/share/cmake-3.12/Modules/CheckFunctionExists.c
+Linking C executable cmTC_82eff.exe
+/C/msys64/mingw64/bin/cmake.exe -E remove -f CMakeFiles/cmTC_82eff.dir/objects.a
+ar cr CMakeFiles/cmTC_82eff.dir/objects.a "CMakeFiles/cmTC_82eff.dir/CheckFunctionExists.c.obj" 
+/C/msys64/mingw64/bin/x86_64-w64-mingw32-gcc.exe  -DCHECK_FUNCTION_EXISTS=explicit_bzero    -Wl,--whole-archive CMakeFiles/cmTC_82eff.dir/objects.a -Wl,--no-whole-archive  -o cmTC_82eff.exe -Wl,--major-image-version,0,--minor-image-version,0  -L/C/msys64/opt/Stellite/build/release/CMakeFiles/CMakeTmp/strings.h -lc -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lc
+collect2.exe: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_82eff.dir/build.make:88: cmTC_82eff.exe] Error 1
+make[2]: Leaving directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_82eff/fast] Error 2
+make[1]: Leaving directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
 
 
-Determining if the -Wl,-z,noexecheap linker flag is suppored failed with the following output:
-Change Dir: /root/Stellite/build/release/CMakeFiles/CMakeTmp
+Determining if the function strptime exists failed with the following output:
+Change Dir: C:/msys64/opt/Stellite/build/release/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_4db5c/fast"
-make[1]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-/usr/bin/make -f CMakeFiles/cmTC_4db5c.dir/build.make CMakeFiles/cmTC_4db5c.dir/build
-make[2]: Entering directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_4db5c.dir/CheckLinkerFlag.c.o
-/usr/bin/cc    -Wl,-z,noexecheap    -Wl,-z,noexecheap -o CMakeFiles/cmTC_4db5c.dir/CheckLinkerFlag.c.o   -c /root/Stellite/cmake/CheckLinkerFlag.c
-Linking C executable cmTC_4db5c
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4db5c.dir/link.txt --verbose=1
-/usr/bin/cc  -Wl,-z,noexecheap     CMakeFiles/cmTC_4db5c.dir/CheckLinkerFlag.c.o  -o cmTC_4db5c -rdynamic 
-/usr/bin/ld: warning: -z noexecheap ignored.
-make[2]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
-make[1]: Leaving directory '/root/Stellite/build/release/CMakeFiles/CMakeTmp'
+Run Build Command:"C:/msys64/usr/bin/make.exe" "cmTC_14b7c/fast"
+make[1]: Entering directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+/usr/bin/make -f CMakeFiles/cmTC_14b7c.dir/build.make CMakeFiles/cmTC_14b7c.dir/build
+make[2]: Entering directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_14b7c.dir/CheckFunctionExists.c.obj
+/C/msys64/mingw64/bin/x86_64-w64-mingw32-gcc.exe   -DCHECK_FUNCTION_EXISTS=strptime   -o CMakeFiles/cmTC_14b7c.dir/CheckFunctionExists.c.obj   -c /C/msys64/mingw64/share/cmake-3.12/Modules/CheckFunctionExists.c
+Linking C executable cmTC_14b7c.exe
+/C/msys64/mingw64/bin/cmake.exe -E remove -f CMakeFiles/cmTC_14b7c.dir/objects.a
+ar cr CMakeFiles/cmTC_14b7c.dir/objects.a "CMakeFiles/cmTC_14b7c.dir/CheckFunctionExists.c.obj" 
+/C/msys64/mingw64/bin/x86_64-w64-mingw32-gcc.exe  -DCHECK_FUNCTION_EXISTS=strptime    -Wl,--whole-archive CMakeFiles/cmTC_14b7c.dir/objects.a -Wl,--no-whole-archive  -o cmTC_14b7c.exe -Wl,--major-image-version,0,--minor-image-version,0 -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
+C:/msys64/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/7.3.0/../../../../x86_64-w64-mingw32/bin/ld.exe: CMakeFiles/cmTC_14b7c.dir/objects.a(CheckFunctionExists.c.obj):CheckFunctionExists.c:(.text+0x15): undefined reference to `strptime'
+collect2.exe: error: ld returned 1 exit status
+make[2]: *** [CMakeFiles/cmTC_14b7c.dir/build.make:88: cmTC_14b7c.exe] Error 1
+make[2]: Leaving directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
+make[1]: *** [Makefile:121: cmTC_14b7c/fast] Error 2
+make[1]: Leaving directory '/opt/Stellite/build/release/CMakeFiles/CMakeTmp'
 
 
