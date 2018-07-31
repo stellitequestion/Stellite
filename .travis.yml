@@ -1,11 +1,11 @@
 sudo: required
 before_install:
   - sudo apt-get update && sudo apt-get install g++ python-dev autotools-dev libicu-dev build-essential libbz2-dev git-core build-essential cmake libpcsclite-dev miniupnpc libunbound-dev graphviz pkg-config libssl-dev libboost-all-dev
-#  - wget https://transfer.sh/12xOcX/boost_1_62_0.tar.gz
-#  - tar -xf boost_1_62_0.tar.gz
-#  - cd boost_1_62_0
-#  - ./bootstrap.sh --prefix=/usr/local
-#  - sudo ./b2 install
+  - wget https://dl.bintray.com/boostorg/release/1.67.0/source/boost_1_67_0.tar.gz
+  - tar -xf boost_1_67_0.tar.gz
+  - cd boost_1_67_0
+  - ./bootstrap.sh --prefix=/usr/local
+  - sudo ./b2 install
 
 # Enable C++ support
 language: cpp
