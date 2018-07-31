@@ -25,7 +25,7 @@ addons:
     - libunwind8-dev
     #sources:
     #- ubuntu-toolchain-r-test
-script: make -j2 && HAVE_DOT=YES doxygen Doxyfile
+script: make
 notifications:
   email: false
   irc:
