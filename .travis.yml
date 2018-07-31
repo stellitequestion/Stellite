@@ -1,39 +1,20 @@
 sudo: required
-dist: trusty
+before_install:
+  - sudo apt install git-all build-essential cmake libboost-all-dev miniupnpc libpcsclite-dev libzmq3-dev libminiupnpc-dev libunbound-dev graphviz doxygen libunwind8-dev pkg-config libssl-dev
+  - sudo apt-get update && sudo apt-get install build-essential g++ python-dev autotools-dev libicu-dev build-essential libbz2-dev libboost-all-dev
+#  - wget https://transfer.sh/12xOcX/boost_1_62_0.tar.gz
+#  - tar -xf boost_1_62_0.tar.gz
+#  - cd boost_1_62_0
+#  - ./bootstrap.sh --prefix=/usr/local
+#  - sudo ./b2 install
+
+# Enable C++ support
 language: cpp
+
+# Compiler selection
 compiler:
-- gcc
-- clang
-addons:
-  apt:
-    packages:
-    - build-essential
-    - cmake
-    - doxygen
-    - g++
-    - gcc
-    - clang
-    - graphviz
-    - libboost1.55-all-dev
-    - libdb++-dev
-    - libdb-dev
-    - libgtest-dev
-    - libminiupnpc-dev
-    - libssl-dev
-    - libssl1.0.0
-    - libunbound-dev
-    - libunwind8-dev
-    #sources:
-    #- ubuntu-toolchain-r-test
-script: make
-notifications:
-  email: false
-  irc:
-    on_success: change
-    on_failure: change
-    channels:
-      - "chat.freenode.net#monero-dev"
-    nick: monero
-    template:
-      - "%{result} | %{repository}#%{build_number} (%{commit} : %{author}) | Build details : %{build_url}"
-      
+  - gcc
+
+# Build steps
+script:
+  - make
